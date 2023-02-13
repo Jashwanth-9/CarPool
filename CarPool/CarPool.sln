@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarPool", "CarPool.csproj", "{CBAFCF9E-2049-47F1-8A24-609700CFCBC1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "..\Services\Services.csproj", "{950B2939-70A3-46AA-A961-860B3BC68C41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "..\Models\Models.csproj", "{7DC0CF87-757B-4CDD-B42B-4F01BCA21E8F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBAFCF9E-2049-47F1-8A24-609700CFCBC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAFCF9E-2049-47F1-8A24-609700CFCBC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAFCF9E-2049-47F1-8A24-609700CFCBC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAFCF9E-2049-47F1-8A24-609700CFCBC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{950B2939-70A3-46AA-A961-860B3BC68C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{950B2939-70A3-46AA-A961-860B3BC68C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{950B2939-70A3-46AA-A961-860B3BC68C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{950B2939-70A3-46AA-A961-860B3BC68C41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC0CF87-757B-4CDD-B42B-4F01BCA21E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC0CF87-757B-4CDD-B42B-4F01BCA21E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC0CF87-757B-4CDD-B42B-4F01BCA21E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC0CF87-757B-4CDD-B42B-4F01BCA21E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {549A2034-92E7-4BAE-838E-4B53013E4D3F}
+	EndGlobalSection
+EndGlobal
