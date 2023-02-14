@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
@@ -11,7 +13,7 @@ namespace Models
         public string? password { get; set; }
         public string? firstName { get; set; }
         public string? lastName { get; set; }
-        public int mobileNumber { get; set; }
+        public string? mobileNumber { get; set; }
 
     }
 }

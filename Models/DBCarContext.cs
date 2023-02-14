@@ -4,17 +4,19 @@ namespace Models
 {
     public class DBCarContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=CarPoolDb;Trusted_Connection=True;Encrypt=False");
-        }
+
+        public DBCarContext(DbContextOptions<DBCarContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
-        public DbSet<Ride> Rides { get; set; }
-        public DbSet<UserRide> UserRides { get; set;}
+        public DbSet<RideDetails> RideDetails { get; set; }
+        public DbSet<BookRide> BookedRides { get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserRide>()
+            modelBuilder.Entity<BookRide>()
                 .HasKey(r => new { r.rideId, r.userId });
+            modelBuilder.Entity<User>()
+                .Property(u => u.userId).ValueGeneratedOnAdd();
+            modelBuilder.Entity<RideDetails>()
+                .Property(r => r.id).ValueGeneratedOnAdd();
         }
     }   
 }

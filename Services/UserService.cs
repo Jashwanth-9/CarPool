@@ -1,14 +1,14 @@
 ﻿using System.Text.RegularExpressions;
-using CarPool.Models;
+using Models;
 
 namespace Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        DBCarContext carContext { get; set; }
-        public int userId;
-        public UserService() { 
-            carContext= new DBCarContext();
+        DBCarContext carContext;
+        public int userId { get; set; }
+        public UserService(DBCarContext context) {
+            carContext = context;
         }
        
         public bool IsValidLogin(string emailId, string password)
@@ -31,7 +31,6 @@ namespace Services
         public bool IsValidSignup(User user)
         {
             string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-
             if (Regex.IsMatch(user.emailId!, regex, RegexOptions.IgnoreCase) && user.password != null)
             {
                 Signup(user);

@@ -7,38 +7,39 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class OfferingService
+    public class OfferingService : IOfferingService
     {
         DBCarContext carContext;
-        UserService userService;
         public int userId;
 
-        public OfferingService()
+        public OfferingService(DBCarContext context, IUserService user)
         {
-            carContext = new DBCarContext();
-            userService = new UserService();
-            userId = userService.userId;
-
+            carContext = context;
+            userId = user.userId;
         }
-        public void OfferRide(Ride ride)
+        public void OfferRide(RideDetails ride)
         {
-            Ride new_ride = new Ride();
+            RideDetails new_ride = new RideDetails();
             new_ride.price = ride.price;
-            new_ride.inTime = ride.inTime;
-            new_ride.outTime = ride.outTime;
+            new_ride.rideTime = ride.rideTime;
             new_ride.date = ride.date;
             new_ride.availableSeats = ride.availableSeats;
             new_ride.toLocation = ride.toLocation;
             new_ride.fromLocation = ride.fromLocation;
-            new_ride.stop = ride.stop;
-            new_ride.userId = userId;
+            new_ride.stops = ride.stops;
+            int length = ride.stops.Split(",").Count() + 1;
+            for (int i=0;i<length;i++)
+            {
+                new_ride.availableSeats += $",{ride.stops}";
+            }
+            new_ride.offeredUserId = userId;
             carContext.Add(new_ride);
             carContext.SaveChanges();
         }
 
-        public List<Ride> GetOfferedRides()
+        public List<RideDetails> GetOfferedRides()
         {
-            List<Ride> offeredRides = carContext.Rides.ToList();
+            List<RideDetails> offeredRides = carContext.RideDetails.ToList();
             return offeredRides;
         }
     }
