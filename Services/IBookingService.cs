@@ -6,7 +6,7 @@ namespace Services
     public interface IBookingService
     {
         public List<RideDetails> GetMatchingRides(RideDetails ride);
-        public void BookRide(int rideId);
+        public void BookRide(RideDetails rideId);
 
         public List<BookRide> GetBookedRides();
     }

@@ -6,7 +6,7 @@ namespace Services
     public class UserService : IUserService
     {
         DBCarContext carContext;
-        public int userId { get; set; }
+        public static int userId { get; set; }
         public UserService(DBCarContext context) {
             carContext = context;
         }

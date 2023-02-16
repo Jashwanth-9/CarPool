@@ -10,12 +10,9 @@ namespace Services
     public class OfferingService : IOfferingService
     {
         DBCarContext carContext;
-        public int userId;
-
         public OfferingService(DBCarContext context, IUserService user)
         {
             carContext = context;
-            userId = user.userId;
         }
         public void OfferRide(RideDetails ride)
         {
@@ -27,12 +24,15 @@ namespace Services
             new_ride.toLocation = ride.toLocation;
             new_ride.fromLocation = ride.fromLocation;
             new_ride.stops = ride.stops;
-            int length = ride.stops.Split(",").Count() + 1;
-            for (int i=0;i<length;i++)
+            int length = ride.stops!.Split(",").Count() + 1;
+            if (length > 1)
             {
-                new_ride.availableSeats += $",{ride.stops}";
+                for (int i = 0; i <length; i++)
+                {
+                    new_ride.availableSeats += $",{ride.availableSeats}";
+                }
             }
-            new_ride.offeredUserId = userId;
+            new_ride.offeredUserId = UserService.userId;
             carContext.Add(new_ride);
             carContext.SaveChanges();
         }

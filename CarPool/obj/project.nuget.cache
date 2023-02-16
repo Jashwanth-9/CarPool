@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bE52eZrSXp4O5GnxbQsA2rQkhsglMj7PqGzLb/lYC1X2qhoKKgGZBAMr/mHeLIwoQM35vatf3lVPdw3REvCd5g==",
+  "dgSpecHash": "rLnl26SUnPIfWIciHbBLLB14dJTmyE1W8L9J2PDLMQ6T2TwwcSvUYIs5nf5Kx7efVVJQK/qeRF7vWD4P897tjQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Jashwanth Reddy\\OneDrive\\Desktop\\public-repos\\CarPool\\CarPool\\CarPool.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.9\\microsoft.aspnet.webapi.core.5.2.9.nupkg.sha512",
+    "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.3\\microsoft.aspnetcore.authentication.jwtbearer.7.0.3.nupkg.sha512",
     "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.2\\microsoft.aspnetcore.openapi.7.0.2.nupkg.sha512",
     "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.11\\microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",
     "C:\\Users\\Jashwanth Reddy\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

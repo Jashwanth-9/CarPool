@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 
 namespace CarPool.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("api/ride")]
+    [Route("Api/Ride")]
     public class RideController : Controller
     {
         IBookingService bookingService;
@@ -16,9 +18,10 @@ namespace CarPool.Controllers
             this.offeringService = offeringService;
         }
         [HttpPost]
-        [Route("offer")]
+        [Route("Offer")]
         public void OfferRide(RideDetails ride)
         {
+
 
             offeringService.OfferRide(ride);
         }
@@ -39,19 +42,19 @@ namespace CarPool.Controllers
         }
 
         [HttpPost]
-        [Route("book")]
-        public IActionResult BookRide(int rideId)
+        [Route("Book")]
+        public IActionResult BookRide(RideDetails ride)
         {
-            try
-            {
-                bookingService.BookRide(rideId);
-                return Ok();
+/*            try
+            {*/
+                bookingService.BookRide(ride);
+                return Ok(ride);
 
-            }
+/*            }
             catch
             {
                 return BadRequest();
-            }
+            }*/
 
         }
 

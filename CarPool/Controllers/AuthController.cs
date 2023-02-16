@@ -9,39 +9,62 @@ using Models;
 using Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
-
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Configuration;
 
 namespace CarPool.Controllers
 {
     [ApiController]
-    [Route("api/Auth")]
+    [Route("Api/Auth")]
     public class AuthController : ControllerBase
     {
-        IUserService user;
-        public AuthController(IUserService user)
+        IUserService userService;
+        private readonly IConfiguration configuration;
+        public AuthController(IUserService user, IConfiguration config)
         {
-            this.user= user;
+            this.userService= user;
+            this.configuration= config;
         }
         [HttpPost]
         [Route("SignUp")]
         public IActionResult SignUp(User signup)
         {
-            if (user.IsValidSignup(signup)) {
+            if (userService.IsValidSignup(signup)) {
                 return Ok(signup);
             }
             return BadRequest();
         }
+
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(string emailId,string password)
+        public IActionResult Login(User user)
         {
             
-            if (user.IsValidLogin(emailId,password))
+            if (userService.IsValidLogin(user.emailId!,user.password!))
             {
-
-                return Ok();
+                var token = GenerateJwtToken(user);
+                return Ok(token);
+                /*return Ok();*/
             }
-            return BadRequest();
+            return NotFound();
+        }
+        private string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("asdv234234^&%&^%&^hjsdfb2%%%"/*configuration["jwt : Key"]!*/);
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("userId", user.userId.ToString()) ,
+                 new Claim("userName",user.emailId.ToString())}),
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
     }
