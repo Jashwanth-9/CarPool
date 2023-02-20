@@ -1,6 +1,7 @@
-﻿/*using Models;*/
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,21 @@ namespace Services
     public class BookingService : IBookingService
     {
         DBCarContext carContext;
-        public BookingService(DBCarContext context)
+        IMapper mapper;
+        public BookingService(DBCarContext context, IMapper mapper)
         {
             carContext = context;
+            this.mapper = mapper;
         }
 
         private List<string> getStops(string fromLocation,string stops,string toLocation)
         {
             List<string> locations = new List<string>();
             locations.Add($"{fromLocation}");
-            locations.AddRange(stops.Split(',').ToList());
+            if(stops!= "")
+            {
+                locations.AddRange(stops.Split(',').ToList());
+            }
             locations.Add($"{toLocation}");
             return locations;
         }
@@ -34,85 +40,117 @@ namespace Services
             List<int> seats = available.Select(a => int.Parse(a)).ToList();
             return seats;
         }
-        public List<RideDetails> GetMatchingRides(RideDetails ride)
-
+        public List<BookRide> GetMatchingRides(BookRide ride)
         {
-            List<RideDetails> rides = carContext.RideDetails.Where(r => r.rideTime == ride.rideTime && r.date == ride.date).ToList();
-            List<RideDetails> availableRides=new List<RideDetails>();
-            foreach (RideDetails available in rides)
+            try
             {
-                List<string> locations = getStops(available.fromLocation!, available.stops!, available.toLocation!);
-                List<int> seats = getSeats(available.availableSeats!);
-                int min = int.MaxValue;
-                if (locations.Contains(ride.fromLocation) && locations.Contains(ride.toLocation))
+                List<RideDetails> rides = carContext.RideDetails.Where(r => r.rideTime == ride.rideTime && r.date == ride.date).ToList();
+                List<BookRide> availableRides = new List<BookRide>();
+                foreach (RideDetails available in rides)
                 {
-                    int n = Math.Abs(locations.IndexOf(ride.toLocation) - locations.IndexOf(ride.fromLocation));
-                    int p = (available.price / locations.Count());
-                    
-                    available.fromLocation = ride.fromLocation;
-                    available.toLocation = ride.toLocation;
-                    available.price = p*n;
-                    
-                    for (int i = locations.IndexOf(ride.fromLocation); i <= locations.IndexOf(ride.toLocation); i++)
+                    List<string> locations = getStops(available.fromLocation!, available.stops!, available.toLocation!);
+                    List<int> seats = getSeats(available.availableSeats!);
+                    int minimumSeats = int.MaxValue;
+                    if (locations.Contains(ride.fromLocation!) && locations.Contains(ride.toLocation!))
                     {
-                        if (seats[i] < min)
+                        int numberOfLocations = Math.Abs(locations.IndexOf(ride.toLocation!) - locations.IndexOf(ride.fromLocation!));
+                        int priceOfEachStop = (available.price / locations.Count());
+
+                        available.fromLocation = ride.fromLocation;
+                        available.toLocation = ride.toLocation;
+                        available.price = priceOfEachStop * numberOfLocations;
+
+                        for (int i = locations.IndexOf(ride.fromLocation!); i <= locations.IndexOf(ride.toLocation!); i++)
                         {
-                            min = seats[i];
-                            available.availableSeats = Convert.ToString(min);
+                            if (seats[i] < minimumSeats)
+                            {
+                                minimumSeats = seats[i];
+                                available.availableSeats = Convert.ToString(minimumSeats);
+                            }
                         }
                     }
-                }
-                if (min!=int.MaxValue && min!=0)
-                {
-                    availableRides.Add(available);
-                }
-            }
-            return availableRides;
-        }
-
-        private void Book(RideDetails ride)
-        {
-            RideDetails offered = carContext.RideDetails.Where(r => r.id == ride.id).First();
-            List<string> locations = getStops(offered.fromLocation, offered.stops, offered.toLocation);
-            List<int> availableSeats = getSeats(offered.availableSeats!);
-            offered.availableSeats = "";
-            if(locations.Count()> 0)
-            {
-                for (int i = 0; i < locations.Count(); i++)
-                {
-                    if (i >= locations.IndexOf(ride.fromLocation!) && i < locations.IndexOf(ride.toLocation!))
+                    if (minimumSeats != int.MaxValue && minimumSeats >= 0)
                     {
-                        availableSeats[i] = availableSeats[i] - 1;
+                        BookRide new_match = mapper.Map<BookRide>(available);
+                        availableRides.Add(new_match);
                     }
-                    offered.availableSeats = offered.availableSeats + Convert.ToString(availableSeats[i]) + ",";
                 }
-                int index = offered.availableSeats.LastIndexOf(",");
-                offered.availableSeats = offered.availableSeats.Remove(index);
+                return availableRides;
+        }
+            catch (Exception e) 
+            {
+                throw new Exception(e.Message);
             }
-            Console.WriteLine(offered);
-            carContext.Update(offered);
-            carContext.SaveChanges();
         }
 
-        public void BookRide(RideDetails ride)
+        private bool Book(BookingDetails ride)
         {
-            BookRide new_booking = new BookRide();
+            RideDetails offered = new RideDetails();
+            try
+            {
+                offered = carContext.RideDetails.Where(r => r.id == ride.rideId).First();
+                if (offered == null)
+                {
+                    return false;
+                }
+                List<string> locations = getStops(offered.fromLocation!, offered.stops!, offered.toLocation!);
+                List<int> availableSeats = getSeats(offered.availableSeats!);
+                offered.availableSeats = "";
+                if (locations.Count() > 0)
+                {
+                    for (int i = 0; i < availableSeats.Count(); i++)
+                    {
+                        if (i >= locations.IndexOf(ride.fromLocation!) && i < locations.IndexOf(ride.toLocation!))
+                        {
+                            availableSeats[i] = availableSeats[i] - 1;
+                        }
+                        offered.availableSeats = offered.availableSeats + Convert.ToString(availableSeats[i]) + ",";
+                    }
+                    int index = offered.availableSeats.LastIndexOf(",");
+                    offered.availableSeats = offered.availableSeats.Remove(index);
+                }
+                carContext.Update(offered);
+                carContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public BookRide BookRide(BookRide ride)
+        {
+            /*BookingDetails new_booking = new BookingDetails();*//*
             new_booking.userId = UserService.userId;
             new_booking.date = ride.date;
             new_booking.rideTime = ride.rideTime;
             new_booking.rideId = ride.id;
-/*            new_booking.fromLocation=ride.fromLocation;
-            new_booking.toLocation=ride.toLocation;*/
+            new_booking.fromLocation = ride.fromLocation;
+            new_booking.toLocation = ride.toLocation;
             new_booking.price = ride.price;
-            new_booking.offeredUserId=ride.offeredUserId;
+            new_booking.offeredUserId = ride.offeredUserId;*/
+            BookingDetails new_booking = mapper.Map<BookingDetails>(ride);
+            new_booking.userId = UserService.userId;
+            if (!Book(new_booking))
+            {
+                return null;
+            };
+            
             carContext.Add(new_booking);
             carContext.SaveChanges();
-            Book(ride);
+
+            return (ride);
         }
 
         public List<BookRide> GetBookedRides()
         {
-            List<BookRide> bookedRides = carContext.BookedRides.ToList();
+            List<BookingDetails> bookedRides_ = carContext.BookedRides.Where(b => b.userId==UserService.userId).ToList();
+            List<BookRide> bookedRides = new List<BookRide>();
+            foreach(BookingDetails ride in bookedRides_)
+            {
+                bookedRides.Add(mapper.Map<BookRide>(ride));
+            }
             return bookedRides;
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Services;
+using ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.IdentityModel.Tokens;
@@ -22,17 +23,27 @@ namespace CarPool.Controllers
     public class AuthController : ControllerBase
     {
         IUserService userService;
+        ITokenService tokenService;
         private readonly IConfiguration configuration;
-        public AuthController(IUserService user, IConfiguration config)
+        public AuthController(IUserService userService, IConfiguration config, ITokenService tokenService)
         {
-            this.userService= user;
-            this.configuration= config;
+            this.userService= userService;
+            configuration= config;
+            this.tokenService= tokenService;
         }
         [HttpPost]
         [Route("SignUp")]
-        public IActionResult SignUp(User signup)
+        /*public IActionResult SignUp(User signup)
         {
             if (userService.IsValidSignup(signup)) {
+                return Ok(signup);
+            }
+            return BadRequest();
+        }*/
+        public IActionResult SignUp(UserView signup)
+        {
+            if (userService.IsValidSignup(signup))
+            {
                 return Ok(signup);
             }
             return BadRequest();
@@ -40,32 +51,14 @@ namespace CarPool.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(User user)
+        public IActionResult Login(UserView user)
         {
-            
             if (userService.IsValidLogin(user.emailId!,user.password!))
             {
-                var token = GenerateJwtToken(user);
+                var token = tokenService.GenerateJwtToken(user);
                 return Ok(token);
-                /*return Ok();*/
             }
-            return NotFound();
+            return NotFound("No user found with specified emailId and Password");
         }
-        private string GenerateJwtToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("asdv234234^&%&^%&^hjsdfb2%%%"/*configuration["jwt : Key"]!*/);
-
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("userId", user.userId.ToString()) ,
-                 new Claim("userName",user.emailId.ToString())}),
-                Expires = DateTime.UtcNow.AddMinutes(15),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
     }
 }

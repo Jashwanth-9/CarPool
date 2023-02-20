@@ -1,11 +1,12 @@
 ﻿using Models;
+using ViewModel;
 
 namespace Services
 {
     public interface IOfferingService
     {
-        public void OfferRide(RideDetails ride);
+        public OfferRide OfferRide(OfferRide ride);
 
-        public List<RideDetails> GetOfferedRides();
+        public List<BookRide> GetOfferedRides();
     }
 }

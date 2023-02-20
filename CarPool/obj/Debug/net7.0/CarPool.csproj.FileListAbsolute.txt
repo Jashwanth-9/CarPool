@@ -283,3 +283,7 @@ C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug
 C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\Models.pdb
 C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\Services.pdb
 C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\ViewModel.dll
+C:\Users\Jashwanth Reddy\OneDrive\Desktop\public-repos\CarPool\CarPool\bin\Debug\net7.0\ViewModel.pdb

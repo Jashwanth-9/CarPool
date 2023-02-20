@@ -1,14 +1,12 @@
 ﻿using Models;
 using System.Text.RegularExpressions;
+using ViewModel;
 
 namespace Services
 {
     public interface IUserService
     {
-        /*public static int userId { get; set; }*/
         public bool IsValidLogin(string emailId, string password);
-        public bool IsValidSignup(User user);
-
-        public void Signup(User user);
+        public bool IsValidSignup(UserView user);
     }
 }

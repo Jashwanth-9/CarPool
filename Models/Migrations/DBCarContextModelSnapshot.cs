@@ -21,15 +21,18 @@ namespace Models.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Models.BookRide", b =>
+            modelBuilder.Entity("Models.BookingDetails", b =>
                 {
-                    b.Property<int>("rideId")
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
                     b.Property<string>("date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fromLocation")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("offeredUserId")
@@ -38,10 +41,19 @@ namespace Models.Migrations
                     b.Property<int>("price")
                         .HasColumnType("int");
 
+                    b.Property<int>("rideId")
+                        .HasColumnType("int");
+
                     b.Property<string>("rideTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("rideId", "userId");
+                    b.Property<string>("toLocation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookingId");
 
                     b.ToTable("BookedRides");
                 });
