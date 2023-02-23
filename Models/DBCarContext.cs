@@ -14,9 +14,9 @@ namespace Models
             modelBuilder.Entity<BookingDetails>()
                 .Property(a => a.BookingId).ValueGeneratedOnAdd();
             modelBuilder.Entity<User>()
-                .Property(u => u.userId).ValueGeneratedOnAdd();
+                .Property(u => u.UserId).ValueGeneratedOnAdd();
             modelBuilder.Entity<RideDetails>()
-                .Property(r => r.id).ValueGeneratedOnAdd();
+                .Property(r => r.Id).ValueGeneratedOnAdd();
         }
     }   
 }

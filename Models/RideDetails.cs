@@ -6,15 +6,15 @@ namespace Models
     public class RideDetails
     {
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
         [ForeignKey("User")]
-        public int offeredUserId { get; set; }
-        public string? fromLocation { get; set; }
-        public string? toLocation { get; set; }
-        public string? date { get; set; }
-        public string? rideTime { get; set; }
-        public int price { get; set; }
-        public string? stops { get; set; }
-        public string? availableSeats { get; set; }
+        public int OfferedUserId { get; set; }
+        public string? FromLocation { get; set; }
+        public string? ToLocation { get; set; }
+        public string? Date { get; set; }
+        public string? RideTime { get; set; }
+        public int Price { get; set; }
+        public string? Stops { get; set; }
+        public string? AvailableSeats { get; set; }
     }
 }

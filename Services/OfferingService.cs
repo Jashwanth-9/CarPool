@@ -30,19 +30,19 @@ namespace Services
             new_ride.stops = ride.stops;*/
             RideDetails new_ride = mapper.Map<RideDetails>(ride);
             
-            if (ride.stops == "")
+            if (ride.Stops == "")
             {
-                new_ride.availableSeats += $",{ride.availableSeats}";
+                new_ride.AvailableSeats += $",{ride.AvailableSeats}";
             }
             else
             {
-                int length = ride.stops!.Split(",").Count()+1;
+                int length = ride.Stops!.Split(",").Count()+1;
                 for (int i = 0; i < length; i++)
-                {
-                    new_ride.availableSeats += $",{ride.availableSeats}";
+                {   
+                    new_ride.AvailableSeats += $",{ride.AvailableSeats}";
                 }
             }
-            new_ride.offeredUserId = UserService.userId;
+            new_ride.OfferedUserId = UserService.UserId;
             carContext.Add(new_ride);
             carContext.SaveChanges();
             return ride;
@@ -51,7 +51,7 @@ namespace Services
 
         public List<BookRide> GetOfferedRides()
         {
-            List<RideDetails> offeredRides = carContext.RideDetails.Where(r => r.offeredUserId == UserService.userId).ToList();
+            List<RideDetails> offeredRides = carContext.RideDetails.Where(r => r.OfferedUserId == UserService.UserId).ToList();
             List<BookRide> offered= new List<BookRide>();
             foreach(RideDetails ride in offeredRides)
             {

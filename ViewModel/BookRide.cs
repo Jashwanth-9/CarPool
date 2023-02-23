@@ -2,12 +2,12 @@
 {
     public class BookRide
     {
-        public int rideId { get; set; }
-        public int offeredUserId { get; set; }
-        public string? fromLocation { get; set; }
-        public string? toLocation { get; set; }
-        public string? date { get; set; }
-        public string? rideTime { get; set; }
-        public int price { get; set; }
+        public int RideId { get; set; }
+        public int OfferedUserId { get; set; }
+        public string? FromLocation { get; set; }
+        public string? ToLocation { get; set; }
+        public string? Date { get; set; }
+        public string? RideTime { get; set; }
+        public int Price { get; set; }
     }
 }

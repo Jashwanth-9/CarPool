@@ -8,12 +8,12 @@ namespace Models
     public class User
     {
         [Key]
-        public int userId { get; set; }
-        public string? emailId { get; set; }
-        public string? password { get; set; }
-        public string? firstName { get; set; }
-        public string? lastName { get; set; }
-        public string? mobileNumber { get; set; }
+        public int UserId { get; set; }
+        public string? EmailId { get; set; }
+        public string? Password { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? MobileNumber { get; set; }
 
     }
 }

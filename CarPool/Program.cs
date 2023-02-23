@@ -29,7 +29,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOfferingService, OfferingService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-/*builder.Services.AddSingleton<IConfiguration>(provider => builder.Configuration);*/
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

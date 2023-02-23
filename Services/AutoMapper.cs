@@ -15,7 +15,7 @@ namespace Services
             CreateMap<UserView, User>().ReverseMap();
             CreateMap<BookRide, BookingDetails>().ReverseMap();
             CreateMap<OfferRide, RideDetails>().ReverseMap();
-            CreateMap<BookRide, RideDetails>().ForMember(dest => dest.id , act => act.MapFrom(src=> src.rideId)).ReverseMap();
+            CreateMap<BookRide, RideDetails>().ForMember(dest => dest.Id , act => act.MapFrom(src=> src.RideId)).ReverseMap();
         }
     }
 }

@@ -11,20 +11,21 @@ namespace Services
     {
         DBCarContext carContext;
         IMapper mapper;
-        public static int userId { get; set; }
+        public static int UserId { get; set; }
         public UserService(DBCarContext context, IMapper mapper) {
             carContext = context;
             this.mapper = mapper;
         }
-       
+
+
         public bool IsValidLogin(string emailId, string password)
         {
             try
             {
-                User data = carContext.Users.Where(u => u.emailId == emailId).First();
-                if (data.emailId == emailId && data.password.DecryptString() == password)
+                User data = carContext.Users.Where(u => u.EmailId == emailId).First();
+                if (data.EmailId == emailId && data.Password.DecryptString() == password)
                 {
-                    userId = data.userId;
+                    UserId = data.UserId;
                     return true;
                 }
                 return false;
@@ -37,7 +38,7 @@ namespace Services
         public bool IsValidSignup(UserView user)
         {
             string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-            if (Regex.IsMatch(user.emailId!, regex, RegexOptions.IgnoreCase) && user.password != null)
+            if (Regex.IsMatch(user.EmailId!, regex, RegexOptions.IgnoreCase) && user.Password != null)
             {
                 Signup(user);
                 return true;
@@ -45,16 +46,16 @@ namespace Services
             return false;
         }
 
-        private void Signup(UserView user)
+        public void Signup(UserView user)
         {
-            user.password = user.password.EncryptString();
+            user.Password = user.Password.EncryptString();
             /*User new_user = new User();
             new_user.emailId = user.emailId;
             new_user.password = user.password.EncryptString();
             new_user.firstName = user.firstName;
             new_user.lastName = user.lastName;
             new_user.mobileNumber = user.mobileNumber;*/
-            var User=mapper.Map<User>(user);
+            var User = mapper.Map<User>(user);
             carContext.Add(User);
             carContext.SaveChanges();
         }

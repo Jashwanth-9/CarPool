@@ -24,11 +24,9 @@ namespace CarPool.Controllers
     {
         IUserService userService;
         ITokenService tokenService;
-        private readonly IConfiguration configuration;
-        public AuthController(IUserService userService, IConfiguration config, ITokenService tokenService)
+        public AuthController(IUserService userService, ITokenService tokenService)
         {
             this.userService= userService;
-            configuration= config;
             this.tokenService= tokenService;
         }
         [HttpPost]
@@ -53,7 +51,7 @@ namespace CarPool.Controllers
         [Route("Login")]
         public IActionResult Login(UserView user)
         {
-            if (userService.IsValidLogin(user.emailId!,user.password!))
+            if (userService.IsValidLogin(user.EmailId!,user.Password!))
             {
                 var token = tokenService.GenerateJwtToken(user);
                 return Ok(token);
