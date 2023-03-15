@@ -20,14 +20,6 @@ namespace Services
         }
         public OfferRide OfferRide(OfferRide ride)
         {
-            /*RideDetails new_ride = new RideDetails();
-            new_ride.price = ride.price;
-            new_ride.rideTime = ride.rideTime;
-            new_ride.date = ride.date;
-            new_ride.availableSeats = ride.availableSeats;
-            new_ride.toLocation = ride.toLocation;
-            new_ride.fromLocation = ride.fromLocation;
-            new_ride.stops = ride.stops;*/
             RideDetails new_ride = mapper.Map<RideDetails>(ride);
             
             if (ride.Stops == "")

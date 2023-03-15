@@ -37,7 +37,7 @@ namespace CarPool.Controllers
         [Route("Matching")]
         public IActionResult GetMatchingRides(BookRide ride)
         {
-            List<BookRide> rides = bookingService.GetMatchingRides(ride);
+            List<MatchingRide> rides = bookingService.GetMatchingRides(ride);
             if(rides!= null)
             {
                 return Ok(rides);

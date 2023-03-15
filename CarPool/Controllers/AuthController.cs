@@ -15,6 +15,9 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Configuration;
+using Microsoft.AspNetCore.Cors;
+using System.Web.Helpers;
+using System.Text.Json;
 
 namespace CarPool.Controllers
 {
@@ -53,10 +56,11 @@ namespace CarPool.Controllers
         {
             if (userService.IsValidLogin(user.EmailId!,user.Password!))
             {
-                var token = tokenService.GenerateJwtToken(user);
+                var token = JsonSerializer.Serialize(tokenService.GenerateJwtToken(user));
                 return Ok(token);
+                /*return Ok(user);*/
             }
-            return NotFound("No user found with specified emailId and Password");
+            return BadRequest("No user found with specified emailId and Password");
         }
     }
 }
